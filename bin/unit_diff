@@ -14,10 +14,10 @@
 #    -v display version
 
 require 'unit_diff'
-require 'zentest'
 
 ############################################################
 
+#TODO fix this...
 if defined? $v then
   puts "#{File.basename $0} v. #{ZenTest::VERSION}"
   exit 0

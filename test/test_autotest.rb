@@ -1,12 +1,6 @@
-#!/usr/local/bin/ruby -w
-
-$TESTING = true
-
-require 'rubygems'
-require 'minitest/autorun'
-
-require 'stringio'
+require 'test/helper'
 require 'autotest'
+
 
 # NOT TESTED:
 #   class_run
@@ -26,7 +20,7 @@ class Autotest
   end
 end
 
-class TestAutotest < MiniTest::Unit::TestCase
+class TestAutotest < Test::Unit::TestCase
 
   def deny test, msg=nil
     if msg then

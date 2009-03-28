@@ -63,6 +63,9 @@ class Autotest
 
   ALL_HOOKS = [ :all_good, :died, :green, :initialize, :interrupt, :quit,
                 :ran_command, :red, :reset, :run_command, :updated, :waiting ]
+              
+  RERUN_ALL_AFTER_FAILED_PASS = !$c
+
 
   HOOKS = Hash.new { |h,k| h[k] = [] }
   unless defined? WINDOZE then
@@ -210,7 +213,7 @@ class Autotest
     loop do # ^c handler
       begin
         get_to_green
-        if self.tainted then
+        if self.tainted and RERUN_ALL_AFTER_FAILED_PASS then
           rerun_all_tests
         else
           hook :all_good

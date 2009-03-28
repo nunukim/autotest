@@ -2,14 +2,14 @@ Autotest is a continous testing facility meant to be used during
 development.  
 As soon as you save a file, autotest will run the corresponding dependent tests.
 
-REQUIREMENTS
+Requirements
 ============
  * Ruby 1.6+, JRuby 1.1.2+, or rubinius
  * Test::Unit or miniunit
  * rubygems
  * diff.exe on windoze. Try http://gnuwin32.sourceforge.net/packages.html
 
-INSTALL
+Install
 =======
 It is recommended to uninstall ZenTest first, otherwise I do not know what happens...
     sudo gem uninstall ZenTest
@@ -20,13 +20,21 @@ It may be better to install it from source:
     cd autotest
     rake install
 
+Setup
+=====
+###Options
+    -f       do not run all tests when starting
+    -c       do not rerun all tests after all failed tests pass
+    TODO there are more...
+
+
 TODO
 ====
  - cleanup bin/unit_diff
  - add gnome notification library
 
 
-LICENSE
+License
 =======
 
 ###This is only ripped from ZenTest

@@ -30,6 +30,8 @@ Setup
 
 TODO
 ====
+ - add documentation for hooks / flags
+ - cleanup bin/autotest code (e.g. OptParse)
  - cleanup bin/unit_diff
  - add gnome notification library
 

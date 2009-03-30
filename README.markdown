@@ -23,9 +23,12 @@ It may be better to install it from source:
 Setup
 =====
 ###Options
-    -f       do not run all tests when starting
-    -c       do not rerun all tests after all failed tests pass
-    TODO there are more...
+    -f, --fast-start                 Do not run full tests at start
+    -c, --no-full-after-failed       Do not run full tests after failed test passed
+    -v, --verbose                    Be verbose. Prints files that autotest doesn't know how to map to tests
+    -q, --quiet                      Be quiet.
+    -h, --help                       Show this.
+
 
 
 TODO

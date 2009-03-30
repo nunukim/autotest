@@ -31,7 +31,8 @@ Setup
 TODO
 ====
  - add documentation for hooks / flags
- - cleanup bin/autotest code (e.g. OptParse)
+ - remove globals
+ - cleanup bin/autotest Dir hacks / passing of globals
  - cleanup bin/unit_diff
  - add gnome notification library
 

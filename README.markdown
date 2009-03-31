@@ -11,13 +11,14 @@ Requirements
 
 Install
 =======
-It is recommended to uninstall ZenTest first, otherwise I do not know what happens...
+Uninstall ZenTest first, or autotest will not be found:
     sudo gem uninstall ZenTest
-You can install it from github, but then many solutions that build on autotest will fail unless you use `require 'grosser-autotest'`:
+Install:
     sudo gem install grosser-autotest -s http://gems.github.com
-It may be better to install it from source:
-    git clone git://github.com/grosser/autotest.git
-    cd autotest
+To install an [AutoTest free ZenTest](http://github.com/grosser/zentest) version:
+    sudo gem install grosser-zentest -s http://gems.github.com
+To install from source:
+    git clone git://github.com/grosser/autotest.git && cd autotest
     rake install
 
 Setup
@@ -38,6 +39,7 @@ TODO
  - cleanup bin/autotest Dir hacks / passing of globals
  - cleanup bin/unit_diff
  - add gnome notification library
+ - add some automatic notifications e.g. autotest -n -> use any notify library found
 
 
 License

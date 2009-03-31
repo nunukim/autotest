@@ -1,12 +1,14 @@
 require 'rubygems'
 $LOAD_PATH << 'lib'
 
-#TODO generic... test_*
-desc "run tests"
-task :default do
-  puts `ruby test/test_autotest.rb`
-  puts `ruby test/test_unit_diff.rb`
+#rake test
+#TODO this runs tests twice, dunno how to fix :/
+require 'rake/testtask'
+Rake::TestTask.new
+  Rake::TestTask.new(:test) do |test|
+  test.libs << 'test'
 end
+task :default => :test
 
 desc "run autotest on itself"
 task :autotest do

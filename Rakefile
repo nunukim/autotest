@@ -2,12 +2,8 @@ require 'rubygems'
 $LOAD_PATH << 'lib'
 
 #rake test
-#TODO this runs tests twice, dunno how to fix :/
 require 'rake/testtask'
-Rake::TestTask.new
-  Rake::TestTask.new(:test) do |test|
-  test.libs << 'test'
-end
+Rake::TestTask.new(:test) {|test| test.libs << "test"}
 task :default => :test
 
 desc "run autotest on itself"

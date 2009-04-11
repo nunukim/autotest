@@ -377,16 +377,16 @@ class Autotest
 
   ##
   # Find the files which have been modified, update the recorded
-  # timestamps, and use this to update the files to test. Returns true
-  # if any file is newer than the previously recorded most recent
-  # file.
-
+  # timestamps, and use this to update the files to test. Returns
+  # the latest mtime of the files modified or nil when nothing was
+  # modified.
   def find_files_to_test(files=find_files)
     updated = files.select { |filename, mtime| self.last_mtime < mtime }
 
-    p updated if options[:verbose] unless updated.empty? || self.last_mtime.to_i == 0
-
-    hook :updated, updated unless updated.empty? || self.last_mtime.to_i == 0
+    unless updated.empty? or self.last_mtime.to_i == 0 #nothing to update or initial run
+      p updated if options[:verbose]
+      hook :updated, updated
+    end
 
     updated.map { |f,m| test_files_for(f) }.flatten.uniq.each do |filename|
       self.files_to_test[filename] # creates key with default value

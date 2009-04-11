@@ -67,7 +67,7 @@ class Autotest
   RERUN_ALL_AFTER_FAILED_PASS = !$c
 
 
-  HOOKS = Hash.new { |h,k| h[k] = [] }
+  HOOKS = Hash.new { |h,k| h[k] = [] } #unfound keys are []
   unless defined? WINDOZE then
     WINDOZE = /win32/ =~ RUBY_PLATFORM
     SEP = WINDOZE ? '&' : ';'
@@ -109,18 +109,10 @@ class Autotest
   #
 
   def self.autodiscover
-    style = []
-
-    paths = $:.dup
+    paths = $LOAD_PATH.dup
     paths.push 'lib'
     paths.push(*Dir["vendor/plugins/*/lib"])
-
-    begin
-      require 'rubygems'
-      paths.push(*Gem.latest_load_paths)
-    rescue LoadError => e
-      # do nothing
-    end
+    discover_rubygem_paths(paths)
 
     paths.each do |d|
       next unless File.directory? d
@@ -657,5 +649,16 @@ class Autotest
 
   def self.add_hook(name, &block)
     HOOKS[name] << block
+  end
+
+  private
+  
+  def discover_rubygem_paths(paths)
+    begin
+      require 'rubygems'
+      paths.push(*Gem.latest_load_paths)
+    rescue LoadError
+      # rubygems not installed, do nothing...
+    end
   end
 end

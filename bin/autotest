@@ -30,14 +30,9 @@ class Dir
   end
 end
 
-#TODO pass options instead of globals
-$v    = options[:verbose]
-$f    = options[:no_full_after_start]
-$c    = options[:no_full_after_failed]
-$q    = options[:quiet]
-
 #run the correct Autotest variant fitting to the local structure
 require 'autotest'
+Autotest.options.merge!(options)
 target = Autotest
 style = Autotest.autodiscover
 unless style.empty? then

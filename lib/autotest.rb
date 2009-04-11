@@ -1,7 +1,6 @@
 require 'find'
 require 'rbconfig'
 
-$v ||= false
 $TESTING = false unless defined? $TESTING
 
 ##
@@ -63,8 +62,10 @@ class Autotest
 
   ALL_HOOKS = [ :all_good, :died, :green, :initialize, :interrupt, :quit,
                 :ran_command, :red, :reset, :run_command, :updated, :waiting ]
-              
-  RERUN_ALL_AFTER_FAILED_PASS = !$c
+
+  @@options = {}
+  def self.options;@@options;end
+  def options;@@options;end
 
 
   HOOKS = Hash.new { |h,k| h[k] = [] } #unfound keys are []
@@ -205,12 +206,12 @@ class Autotest
     reset
     add_sigint_handler
 
-    self.last_mtime = Time.now if $f
+    self.last_mtime = Time.now if options[:no_full_after_start]
 
     loop do
       begin # ^c handler
         get_to_green
-        if self.tainted and RERUN_ALL_AFTER_FAILED_PASS then
+        if self.tainted and not options[:no_full_after_failed] then
           rerun_all_tests
         else
           hook :all_good
@@ -249,7 +250,7 @@ class Autotest
     cmd = self.make_test_cmd self.files_to_test
     return if cmd.empty?
 
-    puts cmd unless $q
+    puts cmd unless options[:quiet]
 
     old_sync = $stdout.sync
     $stdout.sync = true
@@ -383,7 +384,7 @@ class Autotest
   def find_files_to_test(files=find_files)
     updated = files.select { |filename, mtime| self.last_mtime < mtime }
 
-    p updated if $v unless updated.empty? || self.last_mtime.to_i == 0
+    p updated if options[:verbose] unless updated.empty? || self.last_mtime.to_i == 0
 
     hook :updated, updated unless updated.empty? || self.last_mtime.to_i == 0
 
@@ -517,7 +518,7 @@ class Autotest
     result = result.nil? ? [] : Array(result.last.call(filename, $~))
 
     output.puts "No tests matched #{filename}" if
-      ($v or $TESTING) and result.empty?
+      (options[:verbose] or $TESTING) and result.empty?
 
     result.sort.uniq.select { |f| known_files[f] }
   end

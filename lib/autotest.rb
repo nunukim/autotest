@@ -178,15 +178,19 @@ class Autotest
     self.find_directories  = ['.']
     self.unit_diff         = "unit_diff -u"
 
+    #add Test::Unit mappings
+    #file in /lib -> run test in /test
     self.add_mapping(/^lib\/.*\.rb$/) do |filename, _|
       possible = File.basename(filename).gsub '_', '_?'
       files_matching %r%^test/.*#{possible}$%
     end
 
+    #file in /test -> run it
     self.add_mapping(/^test.*\/test_.*rb$/) do |filename, _|
       filename
     end
 
+    #execute custom extensions
     [File.expand_path('~/.autotest'), './.autotest'].each do |f|
       load f if File.exist? f
     end
@@ -203,8 +207,8 @@ class Autotest
 
     self.last_mtime = Time.now if $f
 
-    loop do # ^c handler
-      begin
+    loop do
+      begin # ^c handler
         get_to_green
         if self.tainted and RERUN_ALL_AFTER_FAILED_PASS then
           rerun_all_tests

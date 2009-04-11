@@ -107,23 +107,24 @@ class Autotest
   #     "rails" if File.exist? 'config/environment.rb'
   #   end
   #
-
   def self.autodiscover
+    #find all potential load paths
     paths = $LOAD_PATH.dup
     paths.push 'lib'
     paths.push(*Dir["vendor/plugins/*/lib"])
-    discover_rubygem_paths(paths)
+    paths += rubygem_load_paths
 
-    paths.each do |d|
-      next unless File.directory? d
-      f = File.join(d, 'autotest', 'discover.rb')
-      if File.exist? f then
-        $: << d unless $:.include? d
-        load f
+    #make paths available if they contain a discover.rb
+    paths.select{|p| File.directory?(p)}.each do |dir|
+      discover_rb = File.join(dir, 'autotest', 'discover.rb')
+      if File.exist? discover_rb then
+        $LOAD_PATH << dir unless $LOAD_PATH.include? dir
+        load discover_rb
       end
     end
 
-    @@discoveries.map { |proc| proc.call }.flatten.compact.sort.uniq
+    #call all discover procs an determine style
+    @@discoveries.map{ |proc| proc.call }.flatten.compact.sort.uniq
   end
 
   ##
@@ -652,13 +653,14 @@ class Autotest
   end
 
   private
-  
-  def discover_rubygem_paths(paths)
+
+  #list of all available rubygem load paths
+  def self.rubygem_load_paths
     begin
       require 'rubygems'
-      paths.push(*Gem.latest_load_paths)
+      Gem.latest_load_paths
     rescue LoadError
-      # rubygems not installed, do nothing...
+      []
     end
   end
 end

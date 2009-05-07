@@ -19,7 +19,7 @@ require 'unit_diff'
 
 #TODO fix this...
 if defined? $v then
-  puts "#{File.basename $0} v. #{ZenTest::VERSION}"
+  puts "#{File.basename $0} v. 4.0.3"
   exit 0
 end
 

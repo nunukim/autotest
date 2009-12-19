@@ -58,6 +58,8 @@ $TESTING = false unless defined? $TESTING
 
 class Autotest
 
+  VERSION = File.read( File.join(File.dirname(__FILE__),'..','VERSION') ).strip
+  
   T0 = Time.at 0
 
   ALL_HOOKS = [ :all_good, :died, :green, :initialize, :interrupt, :quit,

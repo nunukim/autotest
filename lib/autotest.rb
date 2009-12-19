@@ -109,19 +109,10 @@ class Autotest
   #   end
   #
   def self.autodiscover
-    #find all potential load paths
-    paths = $LOAD_PATH.dup
-    paths.push 'lib'
-    paths.push(*Dir["vendor/plugins/*/lib"])
-    paths += rubygem_load_paths
+    require 'rubygems'
 
-    #make paths available if they contain a discover.rb
-    paths.select{|p| File.directory?(p)}.each do |dir|
-      discover_rb = File.join(dir, 'autotest', 'discover.rb')
-      if File.exist? discover_rb then
-        $LOAD_PATH << dir unless $LOAD_PATH.include? dir
-        load discover_rb
-      end
+    Gem.find_files("autotest/discover").each do |f|
+      load f
     end
 
     #call all discover procs an determine style
@@ -431,16 +422,17 @@ class Autotest
   def make_test_cmd files_to_test
     cmds = []
     full, partial = reorder(files_to_test).partition { |k,v| v.empty? }
+    base_cmd = "#{ruby} -I#{libs} -rubygems"
 
     unless full.empty? then
       classes = full.map {|k,v| k}.flatten.uniq
       classes.unshift testlib
-      cmds << "#{ruby} -I#{libs} -rubygems -e \"%w[#{classes.join(' ')}].each { |f| require f }\" | #{unit_diff}"
+      cmds << "#{base_cmd} -e \"%w[#{classes.join(' ')}].each { |f| require f }\" | #{unit_diff}"
     end
 
     partial.each do |klass, methods|
       regexp = Regexp.union(*methods).source
-      cmds << "#{ruby} -I#{libs} #{klass} -n \"/^(#{regexp})$/\" | #{unit_diff}"
+      cmds << "#{base_cmd} #{klass} -n \"/^(#{regexp})$/\" | #{unit_diff}"
     end
 
     return cmds.join("#{SEP} ")
@@ -515,7 +507,7 @@ class Autotest
 
     p :test_file_for => [filename, result.first] if result and $DEBUG
 
-    result = result.nil? ? [] : Array(result.last.call(filename, $~))
+    result = result.nil? ? [] : [result.last.call(filename, $~)].flatten
 
     output.puts "No tests matched #{filename}" if
       (options[:verbose] or $TESTING) and result.empty?
@@ -542,8 +534,9 @@ class Autotest
   end
 
   ##
-  # Adds a file mapping. +regexp+ should match a file path in the
-  # codebase. +proc+ is passed a matched filename and
+  # Adds a file mapping, optionally prepending the mapping to the
+  # front of the list if +prepend+ is true. +regexp+ should match a
+  # file path in the codebase. +proc+ is passed a matched filename and
   # Regexp.last_match. +proc+ should return an array of tests to run.
   #
   # For example, if test_helper.rb is modified, rerun all tests:
@@ -552,8 +545,12 @@ class Autotest
   #     at.files_matching(/^test.*rb$/)
   #   end
 
-  def add_mapping(regexp, &proc)
-    @test_mappings << [regexp, proc]
+  def add_mapping(regexp, prepend = false, &proc)
+    if prepend then
+      @test_mappings.unshift [regexp, proc]
+    else
+      @test_mappings.push [regexp, proc]
+    end
     nil
   end
 

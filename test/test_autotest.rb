@@ -74,6 +74,16 @@ class TestAutotest < Test::Unit::TestCase
     assert_equal expect, actual
   end
 
+  def test_add_mapping_front
+    current = util_mappings
+    @a.add_mapping(/blah/, :front) do 42 end
+
+    actual = util_mappings
+    expect = [/blah/] + current
+
+    assert_equal expect, actual
+  end
+
   def test_clear_exceptions
     test_add_exception
     @a.clear_exceptions
@@ -353,7 +363,7 @@ test_error2(#{@test_class}):
     }
 
     expected = [ "#{RUBY} -I.:lib:test -rubygems -e \"%w[test/unit #{@test}].each { |f| require f }\" | unit_diff -u",
-                 "#{RUBY} -I.:lib:test test/test_fooby.rb -n \"/^(test_something1|test_something2)$/\" | unit_diff -u" ].join("; ")
+                 "#{RUBY} -I.:lib:test -rubygems test/test_fooby.rb -n \"/^(test_something1|test_something2)$/\" | unit_diff -u" ].join("; ")
 
     result = @a.make_test_cmd f
     assert_equal expected, result
@@ -422,7 +432,7 @@ test_error2(#{@test_class}):
   end
 
   def util_mappings
-    @a.test_mappings.map { |k,v| k }.sort_by { |x| x.to_s }
+    @a.test_mappings.map { |k,v| k }
   end
 
   def util_path_to_classname(e,i)

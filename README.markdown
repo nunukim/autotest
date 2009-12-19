@@ -14,12 +14,9 @@ Install
 Uninstall ZenTest first, or autotest will not be found:
     sudo gem uninstall ZenTest
 Install:
-    sudo gem install grosser-autotest -s http://gems.github.com
+    sudo gem install autotest
 To install an [AutoTest free ZenTest](http://github.com/grosser/zentest) version:
     sudo gem install grosser-zentest -s http://gems.github.com
-To install from source:
-    git clone git://github.com/grosser/autotest.git && cd autotest
-    rake install
 
 Setup
 =====
@@ -29,8 +26,6 @@ Setup
     -v, --verbose                    Be verbose. Prints files that autotest doesn't know how to map to tests
     -q, --quiet                      Be quiet.
     -h, --help                       Show this.
-
-
 
 TODO
 ====
@@ -45,8 +40,8 @@ TODO
 License
 =======
 
-###This is only ripped from ZenTest
-Ripper: [Michael Grosser](http://pragmatig.wordpress.com)
+###This is only stripped down version of ZenTest
+Stripper: [Michael Grosser](http://pragmatig.wordpress.com)
 
 ### ZenTest Authors
  - http://www.zenspider.com/ZSS/Products/ZenTest/
@@ -76,4 +71,3 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-

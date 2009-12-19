@@ -55,6 +55,8 @@ begin
     gem.homepage = "http://github.com/grosser/autotest"
     gem.authors = ["Ryan Davis"]
   end
+
+  Jeweler::GemcutterTasks.new
 rescue LoadError
   puts "Jeweler, or one of its dependencies, is not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
 end

@@ -1,13 +1,13 @@
-Autotest is a continous testing facility meant to be used during
-development.  
-As soon as you save a file, autotest will run the corresponding dependent tests.
+As soon as you save a file, autotest will run the matching tests.
 
-Requirements
-============
- * Ruby 1.6+, JRuby 1.1.2+, or rubinius
- * Test::Unit or miniunit
- * rubygems
- * diff.exe on windoze. Try http://gnuwin32.sourceforge.net/packages.html
+This is a fork of the ZenTest package to extract autotest from it.
+
+Improvements over ZenTest
+=========================
+ - possibility to not run all tests after a failed test passes
+ - simplified test setup
+ - simplified packaging
+ - less globals flying around
 
 Install
 =======
@@ -18,14 +18,21 @@ Install:
 To install an [AutoTest free ZenTest](http://github.com/grosser/zentest) version:
     sudo gem install grosser-zentest -s http://gems.github.com
 
-Setup
+Usage
 =====
-###Options
-    -f, --fast-start                 Do not run full tests at start
-    -c, --no-full-after-failed       Do not run full tests after failed test passed
+ - go to a project folder with tests/specs/...
+ - run autotest
+
+### Options
+    -f, --fast-start                 Do not run all tests at start
+    -c, --no-full-after-failed       Do not run all tests after failed test passes
     -v, --verbose                    Be verbose. Prints files that autotest doesn't know how to map to tests
     -q, --quiet                      Be quiet.
     -h, --help                       Show this.
+
+Tips
+====
+ - you need diff.exe on windows. Try http://gnuwin32.sourceforge.net/packages.html
 
 TODO
 ====
@@ -40,7 +47,7 @@ TODO
 License
 =======
 
-###This is only stripped down version of ZenTest
+###This is a stripped down version of ZenTest
 Stripper: [Michael Grosser](http://pragmatig.wordpress.com)
 
 ### ZenTest Authors

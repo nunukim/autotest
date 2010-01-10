@@ -16,7 +16,7 @@ Uninstall ZenTest first, or autotest will not be found:
 Install:
     sudo gem install autotest
 To install an [AutoTest free ZenTest](http://github.com/grosser/zentest) version:
-    sudo gem install grosser-zentest -s http://gems.github.com
+    sudo gem install zentest-without-autotest
 
 Usage
 =====

@@ -168,7 +168,7 @@ class Autotest
     self.order             = :random
     self.output            = $stderr
     self.sleep             = 1
-    self.testlib          = "test/unit"
+    self.testlib           = "test/unit"
     self.find_directories  = ['.']
     self.unit_diff         = "unit_diff -u"
 
@@ -216,8 +216,8 @@ class Autotest
       end
     end
     hook :quit
-  rescue Exception
-    hook :died
+  rescue Exception => err
+    hook :died, err
   end
 
   ##
@@ -252,8 +252,8 @@ class Autotest
     begin
       open("| #{cmd}", "r") do |f|
         until f.eof? do
-          c = f.getc
-          putc c
+          c = f.getc or break
+          print c
           line << c
           if c == ?\n then
             self.results << if RUBY_VERSION >= "1.9" then

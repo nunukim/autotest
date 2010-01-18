@@ -31,6 +31,8 @@ class Dir
 end
 
 #run the correct Autotest variant fitting to the local structure
+$LOAD_PATH.unshift("#{File.dirname(__FILE__)}/../lib")
+
 require 'autotest'
 Autotest.options.merge!(options)
 target = Autotest
@@ -43,6 +45,7 @@ unless style.empty? then
   rescue LoadError
     abort "Autotest style #{mod} doesn't seem to exist. Aborting."
   end
+  puts "style: #{style.map {|s| s.capitalize}.join}"
   target = Autotest.const_get(style.map {|s| s.capitalize}.join)
 end
 target.run

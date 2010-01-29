@@ -185,7 +185,13 @@ class Autotest
     end
 
     #execute custom extensions
-    [File.expand_path('~/.autotest'), './.autotest'].each do |f|
+    configs = ['./.autotest']
+    if options[:rc]
+      configs << File.expand_path(options[:rc])
+    else
+      configs << File.expand_path('~/.autotest')
+    end
+    configs.each do |f|
       load f if File.exist? f
     end
   end

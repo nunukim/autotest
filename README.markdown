@@ -5,6 +5,7 @@ This is a fork of the ZenTest package to extract autotest from it.
 Improvements over ZenTest
 =========================
  - possibility to not run all tests after a failed test passes
+ - possibility to use alternative config file
  - simplified test setup
  - simplified packaging
  - less globals flying around
@@ -25,11 +26,13 @@ Usage
  - run autotest
 
 ### Options
-    -f, --fast-start                 Do not run all tests at start
-    -c, --no-full-after-failed       Do not run all tests after failed test passes
+    -f, --fast-start                 Do not run full tests at start
+    -c, --no-full-after-failed       Do not run full tests after failed test passed
     -v, --verbose                    Be verbose. Prints files that autotest doesn't know how to map to tests
     -q, --quiet                      Be quiet.
+    -r, --rc                         Path to config file. (Defaults to ~/.autotest or current_dir/.autotest)
     -h, --help                       Show this.
+
 
 Tips
 ====
@@ -48,8 +51,9 @@ TODO
 License
 =======
 
-###This is a stripped down version of ZenTest
-Stripper: [Michael Grosser](http://pragmatig.wordpress.com)
+### This is a stripped down version of ZenTest, stripping done by
+ - [Shane Liebling](http://github.com/shanel)
+ - [Michael Grosser](http://pragmatig.wordpress.com)
 
 ### ZenTest Authors
  - http://www.zenspider.com/ZSS/Products/ZenTest/

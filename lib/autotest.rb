@@ -185,9 +185,13 @@ class Autotest
     end
 
     #execute custom extensions
+    load_custom_extensions(options[:rc])
+  end
+
+  def load_custom_extensions(config_file)
     configs = ['./.autotest']
-    if options[:rc]
-      configs << File.expand_path(options[:rc])
+    if config_file
+      configs << File.expand_path(config_file)
     else
       configs << File.expand_path('~/.autotest')
     end

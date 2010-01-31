@@ -61,6 +61,12 @@ class TestAutotestIntegration < Test::Unit::TestCase
         write_passing_tests 10
         assert_match /Finished in \d\.\d+ seconds\.\s*10 tests, 10 assertions, 0 failures, 0 errors/m, run_autotest
       end
+
+      should 'call good hooks in correct order' do
+        write('.autotest', "Autotest::ALL_HOOKS.each{|hook| Autotest.add_hook(hook){print hook;hook == :all_good ? exit : nil }}")
+        write_passing_tests 1
+        assert_match /\n#{%w[ran_command green all_good died]*''}$/m, run_autotest
+      end
     end
   end
 end

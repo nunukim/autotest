@@ -8,6 +8,7 @@ Improvements over ZenTest
  - simplified test setup
  - simplified packaging
  - less globals flying around
+ - integration tests
 
 Install
 =======

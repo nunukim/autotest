@@ -15,8 +15,8 @@ class TestAutotestIntegration < Test::Unit::TestCase
     File.expand_path("./#{File.dirname(__FILE__)}/../bin/unit_diff")
   end
 
-  def run_autotest
-    `cd #{temp_dir} && #{autotest_executable}`
+  def run_autotest(flag_string='')
+      `cd #{temp_dir} && #{autotest_executable} #{flag_string}`
   end
 
   def write(file, text)
@@ -72,6 +72,12 @@ class TestAutotestIntegration < Test::Unit::TestCase
         write_passing_tests 1
         assert_match /\n#{%w[ran_command green all_good died]*''}$/m, run_autotest
       end
+      
+      should 'run with alternate config file location' do
+        write('.autotest_alternate', "Autotest.add_hook(:all_good){print 'all_good';exit}")
+        assert_equal run_autotest('-r .autotest_alternate'), 'all_good'
+      end
+      
     end
   end
 end

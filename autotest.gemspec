@@ -5,12 +5,12 @@
 
 Gem::Specification.new do |s|
   s.name = %q{autotest}
-  s.version = "4.2.3"
+  s.version = "4.2.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ryan Davis"]
-  s.date = %q{2010-01-29}
-  s.executables = ["autotest", "unit_diff"]
+  s.date = %q{2010-01-31}
+  s.executables = ["unit_diff", "autotest"]
   s.extra_rdoc_files = [
     "README.markdown"
   ]
@@ -35,6 +35,7 @@ Gem::Specification.new do |s|
      "lib/unit_diff.rb",
      "test/helper.rb",
      "test/test_autotest.rb",
+     "test/test_autotest_integration.rb",
      "test/test_unit_diff.rb"
   ]
   s.homepage = %q{http://github.com/grosser/autotest}
@@ -43,8 +44,9 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.5}
   s.summary = %q{Autotest, without ZenTest}
   s.test_files = [
-    "test/helper.rb",
-     "test/test_autotest.rb",
+    "test/test_autotest.rb",
+     "test/test_autotest_integration.rb",
+     "test/helper.rb",
      "test/test_unit_diff.rb"
   ]
 

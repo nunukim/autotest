@@ -1,4 +1,4 @@
-#!/usr/local/bin/ruby -ws
+#!/usr/bin/env ruby -ws
 # 
 # unit_diff - a ruby unit test filter by Ryan Davis <ryand-ruby@zenspider.com>
 #
@@ -13,7 +13,11 @@
 #    -u unified diff
 #    -v display version
 
-require 'unit_diff'
+begin
+  require 'unit_diff'
+rescue LoadError
+  require File.dirname(__FILE__) + '/../lib/unit_diff'
+end
 
 ############################################################
 

@@ -40,11 +40,9 @@ Tips
 
 TODO
 ====
- - add documentation for hooks / flags
- - remove globals
- - cleanup bin/autotest Dir hacks / passing of globals
- - cleanup bin/unit_diff
- - add gnome notification library
+ - add documentation for hooks
+ - cleanup bin/autotest Dir hacks
+ - remove globals from unitdiff
  - add some automatic notifications e.g. autotest -n -> use any notify library found
 
 

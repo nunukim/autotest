@@ -362,8 +362,8 @@ test_error2(#{@test_class}):
       'test/test_fooby.rb' => [ 'test_something1', 'test_something2' ]
     }
 
-    expected = [ "#{RUBY} -I.:lib:test -rubygems -e \"%w[test/unit #{@test}].each { |f| require f }\" | unit_diff -u",
-                 "#{RUBY} -I.:lib:test -rubygems test/test_fooby.rb -n \"/^(test_something1|test_something2)$/\" | unit_diff -u" ].join("; ")
+    expected = [ "#{RUBY} -I.:lib:test -rubygems -e \"%w[test/unit #{@test}].each { |f| require f }\" | #{ENV['UNIT_DIFF']} -u",
+                 "#{RUBY} -I.:lib:test -rubygems test/test_fooby.rb -n \"/^(test_something1|test_something2)$/\" | #{ENV['UNIT_DIFF']} -u" ].join("; ")
 
     result = @a.make_test_cmd f
     assert_equal expected, result

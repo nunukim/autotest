@@ -14,7 +14,7 @@ BANNER
   opts.on("-c", "--no-full-after-failed","Do not run full tests after failed test passed") { options[:no_full_after_failed] = true }
   opts.on("-v", "--verbose","Be verbose. Prints files that autotest doesn't know how to map to tests") { options[:verbose] = true }
   opts.on("-q", "--quiet","Be quiet.") { options[:quiet] = true }
-  opts.on("-r", "--rc", String, "Path to config file. (Defaults to ~/.autotest or current_dir/.autotest)") do |opt|
+  opts.on("-r", "--rc CONFIG", String, "Path to config file. (Defaults to ~/.autotest or current_dir/.autotest)") do |opt|
     options[:rc] = opt
   end
   opts.on("-h", "--help","Show this.") { puts opts;exit }

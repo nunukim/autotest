@@ -157,8 +157,6 @@ class Autotest
     @exception_list = []
     @test_mappings = []
 
-    ENV['UNIT_DIFF'] ||= File.expand_path("#{File.dirname(__FILE__)}/../bin/unit_diff")
-
     self.completed_re = /\d+ tests, \d+ assertions, \d+ failures, \d+ errors/
     self.extra_class_map   = {}
     self.extra_files       = []
@@ -172,7 +170,7 @@ class Autotest
     self.sleep             = 1
     self.testlib           = "test/unit"
     self.find_directories  = ['.']
-    self.unit_diff         = "#{ENV['UNIT_DIFF']} -u"
+    self.unit_diff         = "#{File.expand_path("#{File.dirname(__FILE__)}/../bin/unit_diff")} -u"
 
     #add Test::Unit mappings
     #file in /lib -> run test in /test

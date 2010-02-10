@@ -11,12 +11,8 @@ class TestAutotestIntegration < Test::Unit::TestCase
     '../../bin/autotest'
   end
   
-  def unit_diff_executable
-    File.expand_path("./#{File.dirname(__FILE__)}/../bin/unit_diff")
-  end
-
   def run_autotest(flag_string='')
-      `cd #{temp_dir} && #{autotest_executable} #{flag_string}`
+    `cd #{temp_dir} && #{autotest_executable} #{flag_string}`
   end
 
   def write(file, text)
@@ -33,7 +29,6 @@ class TestAutotestIntegration < Test::Unit::TestCase
   context 'integration' do
     context 'green run' do
       setup do
-        ENV['UNIT_DIFF'] = unit_diff_executable
         `rm -rf #{temp_dir}`
         `mkdir #{temp_dir}`
         write('.autotest', "Autotest.add_hook(:all_good){print 'all_good';exit}")

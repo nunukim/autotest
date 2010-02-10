@@ -45,8 +45,8 @@ unless style.empty? then
   puts "loading #{mod}" unless options[:quiet]
   begin
     require mod
-  rescue LoadError
-    abort "Autotest style #{mod} doesn't seem to exist. Aborting."
+  rescue LoadError => e
+    abort "Error loading Autotest style #{mod} (#{e.to_s}). Aborting."
   end
   puts "style: #{style.map {|s| s.capitalize}.join}"
   target = Autotest.const_get(style.map {|s| s.capitalize}.join)

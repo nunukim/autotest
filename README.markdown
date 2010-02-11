@@ -11,14 +11,18 @@ Improvements over ZenTest
  - less globals flying around
  - integration tests
 
+
 Install
 =======
 Uninstall ZenTest first, or autotest will not be found:
     sudo gem uninstall ZenTest
 Install:
     sudo gem install autotest
-To install an [AutoTest free ZenTest](http://github.com/grosser/zentest) version:
+Optional: Support for Test::Unit on Rails
+    sudo gem install autotest-rails-pure
+Optional: an [ZenTest without Autotest](http://github.com/grosser/zentest) version:
     sudo gem install zentest-without-autotest
+
 
 Usage
 =====

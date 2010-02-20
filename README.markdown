@@ -53,7 +53,8 @@ TODO
 License
 =======
 
-### This is a stripped down version of ZenTest, stripping done by
+### Autotest was extracted from ZenTest and improved by:
+ - [Charles Roper](http://twitter.com/charlesroper)
  - [Shane Liebling](http://github.com/shanel)
  - [Michael Grosser](http://pragmatig.wordpress.com)
 

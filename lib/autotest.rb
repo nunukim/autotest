@@ -439,7 +439,7 @@ class Autotest
     unless full.empty? then
       classes = full.map {|k,v| k}.flatten.uniq
       classes.unshift testlib
-      cmds << "#{base_cmd} -e \"%w[#{classes.join(' ')}].each { |f| require f }\" | #{unit_diff}"
+      cmds << "#{base_cmd} -e \"[#{classes.map{|klass| "'#{klass}'"}.join(', ')}].each { |f| require f }\" | #{unit_diff}"
     end
 
     partial.each do |klass, methods|

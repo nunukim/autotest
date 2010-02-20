@@ -364,7 +364,7 @@ test_error2(#{@test_class}):
 
     unit_diff = File.expand_path("#{File.dirname(__FILE__)}/../bin/unit_diff")
 
-    expected = [ "#{RUBY} -I.:lib:test -rubygems -e \"%w[test/unit #{@test}].each { |f| require f }\" | #{unit_diff} -u",
+    expected = [ "#{RUBY} -I.:lib:test -rubygems -e \"['test/unit', '#{@test}'].each { |f| require f }\" | #{unit_diff} -u",
                  "#{RUBY} -I.:lib:test -rubygems test/test_fooby.rb -n \"/^(test_something1|test_something2)$/\" | #{unit_diff} -u" ].join("; ")
 
     result = @a.make_test_cmd f

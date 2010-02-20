@@ -72,7 +72,11 @@ class TestAutotestIntegration < Test::Unit::TestCase
         write('.autotest_alternate', "Autotest.add_hook(:all_good){print 'all_good';exit}")
         assert_equal run_autotest('-r .autotest_alternate'), 'all_good'
       end
-      
+
+      should 'support files with whitespaces' do
+        write('test/test_a x.rb', "print 'YES'")
+        assert_match %r{YES}, run_autotest
+      end
     end
   end
 end

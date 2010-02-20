@@ -72,7 +72,7 @@ class Autotest
 
   HOOKS = Hash.new { |h,k| h[k] = [] } #unfound keys are []
   unless defined? WINDOZE then
-    WINDOZE = /win32/ =~ RUBY_PLATFORM
+    WINDOZE = /mswin|mingw|windows/ =~ Config::CONFIG['host_os']
     SEP = WINDOZE ? '&' : ';'
   end
 
@@ -112,6 +112,10 @@ class Autotest
   #
   def self.autodiscover
     require 'rubygems'
+    begin
+      require 'win32console' if WINDOZE
+    rescue LoadError
+    end
 
     Gem.find_files("autotest/discover").each do |f|
       load f

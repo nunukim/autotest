@@ -117,8 +117,11 @@ class Autotest
     rescue LoadError
     end
 
-    Gem.find_files("autotest/discover").each do |f|
-      load f
+    with_current_path_in_load_path do
+      # search load paths for autotest/discover.rb and load em all
+      Gem.find_files("autotest/discover").each do |f|
+        load f
+      end
     end
 
     #call all discover procs an determine style
@@ -671,6 +674,20 @@ class Autotest
   end
 
   private
+
+  # weird ruby 1.9 'feature': current path(path where autotest was called from) is not in $LOAD_PATH
+  # see http://redmine.ruby-lang.org/issues/show/1733
+  def self.with_current_path_in_load_path
+    if RUBY_VERSION > "1.9"
+      if not $LOAD_PATH.include?(File.expand_path('.')) and not $LOAD_PATH.include?('.')
+        $LOAD_PATH << '.'
+        current_path_was_added = true
+      end
+    end
+    result = yield
+    $LOAD_PATH.delete('.') if current_path_was_added
+    result
+  end
 
   #list of all available rubygem load paths
   def self.rubygem_load_paths

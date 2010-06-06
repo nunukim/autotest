@@ -59,7 +59,9 @@ $TESTING = false unless defined? $TESTING
 class Autotest
 
   VERSION = File.read( File.join(File.dirname(__FILE__),'..','VERSION') ).strip
-  
+
+  RUBY19 = defined? Encoding
+
   T0 = Time.at 0
 
   ALL_HOOKS = [ :all_good, :died, :green, :initialize, :interrupt, :quit,
@@ -273,7 +275,7 @@ class Autotest
           print (c.is_a?(Fixnum) ? c.chr : c)
           line << c
           if c == ?\n then
-            self.results << if RUBY_VERSION >= "1.9" then
+            self.results << if RUBY19 then
                               line.join
                             else
                               line.pack "c*"
@@ -329,6 +331,7 @@ class Autotest
     f = s.sub(/^test#{sep}/, '').sub(/\.rb$/, '').split(sep)
     f = f.map { |path| path.split(/_|(\d+)/).map { |seg| seg.capitalize }.join }
     f = f.map { |path| path =~ /^Test/ ? path : "Test#{path}"  }
+
     f.join('::')
   end
 
@@ -602,6 +605,7 @@ class Autotest
 
   def add_exception regexp
     raise "exceptions already compiled" if defined? @exceptions
+
     @exception_list << regexp
     nil
   end

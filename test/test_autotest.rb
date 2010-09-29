@@ -110,7 +110,10 @@ class TestAutotest < Test::Unit::TestCase
 
     @a.find_order = @files.keys.sort
 
-    input = [['test_fail1', @test_class], ['test_fail2', @test_class], ['test_error1', @test_class], ['test_error2', @test_class]]
+    input = [['test_fail1',  @test_class],
+             ['test_fail2',  @test_class],
+             ['test_error1', @test_class],
+             ['test_error2', @test_class]]
     result = @a.consolidate_failures input
     expected = { @test => %w( test_fail1 test_fail2 test_error1 test_error2 ) }
     assert_equal expected, result
@@ -133,10 +136,10 @@ class TestAutotest < Test::Unit::TestCase
 
   def test_consolidate_failures_nested_classes
     @files.clear
-    @files['lib/outer.rb'] = Time.at(5)
+    @files['lib/outer.rb']       = Time.at(5)
     @files['lib/outer/inner.rb'] = Time.at(5)
-    @files[@inner_test] = Time.at(5)
-    @files[@outer_test] = Time.at(5)
+    @files[@inner_test]          = Time.at(5)
+    @files[@outer_test]          = Time.at(5)
 
     @a.find_order = @files.keys.sort
 
@@ -363,9 +366,14 @@ test_error2(#{@test_class}):
     }
 
     unit_diff = File.expand_path("#{File.dirname(__FILE__)}/../bin/unit_diff")
+    pre = "#{RUBY} -I.:lib:test -rubygems"
+    req = ".each { |f| require f }\""
+    post = "| #{unit_diff} -u"
 
-    expected = [ "#{RUBY} -I.:lib:test -rubygems -e \"['test/unit', '#{@test}'].each { |f| require f }\" | #{unit_diff} -u",
-                 "#{RUBY} -I.:lib:test -rubygems test/test_fooby.rb -n \"/^(test_something1|test_something2)$/\" | #{unit_diff} -u" ].join("; ")
+    expected = [
+      "#{pre} -e \"['test/unit', '#{@test}']#{req} #{post}",
+      "#{pre} test/test_fooby.rb -n \"/^(test_something1|test_something2)$/\" #{post}"
+    ].join("; ")
 
     result = @a.make_test_cmd f
     assert_equal expected, result
@@ -429,8 +437,8 @@ test_error2(#{@test_class}):
 
     assert @a.find_files_to_test(files)
     assert_equal expected, @a.files_to_test
-    assert_equal t, @a.last_mtime
-    assert_equal "", @a.output.string
+    assert_equal t,        @a.last_mtime
+    assert_equal "",       @a.output.string
   end
 
   def util_mappings

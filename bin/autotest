@@ -5,7 +5,7 @@ require 'optparse'
 options = {}
 OptionParser.new do |opts|
   opts.banner = <<BANNER
-Continuouse testing for your ruby app.
+Continuous testing for your ruby app.
 
 Usage:
     autotest [options]
@@ -20,7 +20,7 @@ BANNER
   opts.on("-h", "--help","Show this.") { puts opts;exit }
 end.parse!
 
-#TODO remove this ? what does it do ?
+# remove warnings from Dir.[]
 class Dir
   class << self
     alias :old_index :[]
@@ -34,12 +34,13 @@ class Dir
 end
 
 #run the correct Autotest variant fitting to the local structure
-$LOAD_PATH.unshift("#{File.dirname(__FILE__)}/../lib")
-
+$LOAD_PATH.unshift(File.expand_path("#{File.dirname(__FILE__)}/../lib"))
 require 'autotest'
+
 Autotest.options.merge!(options)
 target = Autotest
 style = Autotest.autodiscover
+
 unless style.empty? then
   mod = "autotest/#{style.join("_")}"
   puts "loading #{mod}" unless options[:quiet]

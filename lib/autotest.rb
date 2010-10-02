@@ -489,8 +489,12 @@ class Autotest
 
     unless full.empty? then
       classes = full.map {|k,v| k}.flatten.uniq
-      classes.unshift testlib
-      cmds << "#{base_cmd} -e \"[#{classes.map{|klass| "'#{klass}'"}.join(', ')}].each { |f| require f }\" | #{unit_diff}"
+      if options[:parallel] and classes.size > 1
+        cmds << "parallel_test #{escape_filenames(classes).join(' ')}"
+      else
+        classes.unshift testlib
+        cmds << "#{base_cmd} -e \"[#{escape_filenames(classes).join(', ')}].each { |f| require f }\" | #{unit_diff}"
+      end
     end
 
     partial.each do |klass, methods|
@@ -498,7 +502,11 @@ class Autotest
       cmds << "#{base_cmd} #{klass} -n \"/^(#{regexp})$/\" | #{unit_diff}"
     end
 
-    return cmds.join("#{SEP} ")
+    cmds.join("#{SEP} ")
+  end
+
+  def escape_filenames(classes)
+    classes.map{|klass| "'#{klass}'"}
   end
 
   def new_hash_of_arrays

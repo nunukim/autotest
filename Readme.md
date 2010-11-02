@@ -40,9 +40,7 @@ Usage
     -s, --style STYLE                Which style to use, e.g. rspec, rspec2
     -h, --help                       Show this.
 
-Tips
-====
- - you need diff.exe on windows. Try http://gnuwin32.sourceforge.net/packages.html
+Windows needs [diff.exe](http://gnuwin32.sourceforge.net/packages.html)
 
 TODO
 ====
@@ -50,6 +48,7 @@ TODO
  - cleanup bin/autotest Dir hacks
  - remove globals from unitdiff
  - add some automatic notifications e.g. autotest -n -> use any notify library found
+ - use watchr
 
 
 License
@@ -58,7 +57,7 @@ License
 ### Autotest was extracted from ZenTest and improved by:
  - [Charles Roper](http://twitter.com/charlesroper)
  - [Shane Liebling](http://github.com/shanel)
- - [Michael Grosser](http://pragmatig.wordpress.com)
+ - [Michael Grosser](http://grosser.it)
 
 ### ZenTest Authors
  - http://www.zenspider.com/ZSS/Products/ZenTest/

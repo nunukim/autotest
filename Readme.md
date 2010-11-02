@@ -6,7 +6,7 @@ Improvements over ZenTest
 =========================
  - `-c` not run all tests after a failed test passes
  - `-r` use given config file
- - `-p` use parallel_tests to run tests
+ - `-p` use parallel_tests to run tests (Test::Unit only)
  - `-s` use any style you want -> `alias autospec2="autotest --style rspec2"`
  - simplified test setup
  - simplified packaging
@@ -27,12 +27,12 @@ Optional: an [ZenTest without Autotest](http://github.com/grosser/zentest) versi
 
 Usage
 =====
- - go to a project folder with tests/specs/...
- - run autotest
+ - go to project folder with tests
+ - run `autotest`
 
 ### Options
     -f, --fast-start                 Do not run full tests at start
-    -p, --parallel                   Run tests in parallel (experimental) -- gem install parallel_tests)
+    -p, --parallel                   Run tests (Test::Unit only) in parallel -- gem install parallel_tests
     -c, --no-full-after-failed       Do not run full tests after failed test passed
     -v, --verbose                    Be verbose. Prints files that autotest doesn't know how to map to tests
     -q, --quiet                      Be quiet.

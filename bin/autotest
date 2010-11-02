@@ -10,8 +10,13 @@ Continuous testing for your ruby app.
 Usage:
     autotest [options]
 BANNER
-  opts.on("-f", "--fast-start","Do not run full tests at start") { options[:no_full_after_start] = true }
-  opts.on("-p", "--parallel","Run tests in parallel (experimental) -- gem install parallel_tests)") { options[:parallel] = true; require 'parallel_tests' }
+  opts.on("-f", "--fast-start","Do not run full tests at start") do
+    options[:no_full_after_start] = true
+  end
+  opts.on("-p", "--parallel","Run tests (Test::Unit only) in parallel -- gem install parallel_tests") do
+    options[:parallel] = true
+    require 'parallel_tests'
+  end
   opts.on("-c", "--no-full-after-failed","Do not run full tests after failed test passed") { options[:no_full_after_failed] = true }
   opts.on("-v", "--verbose","Be verbose. Prints files that autotest doesn't know how to map to tests") { options[:verbose] = true }
   opts.on("-q", "--quiet","Be quiet.") { options[:quiet] = true }

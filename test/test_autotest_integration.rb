@@ -77,6 +77,11 @@ class TestAutotestIntegration < Test::Unit::TestCase
         write('test/test_a x.rb', "print 'YES'")
         assert_match %r{YES}, run_autotest
       end
+
+      should 'use given style' do
+        write('spec/a_spec.rb', "print 'YES'")
+        assert_match %r{YES}, run_autotest('--style rspec2')
+      end
     end
   end
 end

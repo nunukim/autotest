@@ -6,6 +6,11 @@ require 'rake/testtask'
 Rake::TestTask.new(:test) {|test| test.libs << "test"}
 task :default => :test
 
+desc "show help"
+task :help do
+  puts `./bin/autotest --help`
+end
+
 desc "run autotest on itself"
 task :autotest do
   ruby "-Ilib -w ./bin/autotest"

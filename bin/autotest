@@ -18,6 +18,9 @@ BANNER
   opts.on("-r", "--rc CONFIG", String, "Path to config file. (Defaults to ~/.autotest or current_dir/.autotest)") do |opt|
     options[:rc] = opt
   end
+  opts.on("-s", "--style STYLE", "Which style to use, e.g. rspec, rspec2") do |style|
+    options[:style] = style
+  end
   opts.on("-h", "--help","Show this.") { puts opts;exit }
 end.parse!
 
@@ -40,9 +43,9 @@ require 'autotest'
 
 Autotest.options.merge!(options)
 target = Autotest
-style = Autotest.autodiscover
+style = (options[:style] ? [options[:style]] : Autotest.autodiscover)
 
-unless style.empty? then
+unless style.empty?
   mod = "autotest/#{style.join("_")}"
   puts "loading #{mod}" unless options[:quiet]
   begin

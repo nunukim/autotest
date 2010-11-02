@@ -7,6 +7,7 @@ Improvements over ZenTest
  - `-c` not run all tests after a failed test passes
  - `-r` use given config file
  - `-p` use parallel_tests to run tests
+ - `-s` use any style you want -> `alias autospec2="autotest --style rspec2"`
  - simplified test setup
  - simplified packaging
  - less globals
@@ -35,9 +36,9 @@ Usage
     -c, --no-full-after-failed       Do not run full tests after failed test passed
     -v, --verbose                    Be verbose. Prints files that autotest doesn't know how to map to tests
     -q, --quiet                      Be quiet.
-    -r, --rc                         Path to config file. (Defaults to ~/.autotest or current_dir/.autotest)
+    -r, --rc CONFIG                  Path to config file. (Defaults to ~/.autotest or current_dir/.autotest)
+    -s, --style STYLE                Which style to use, e.g. rspec, rspec2
     -h, --help                       Show this.
-
 
 Tips
 ====

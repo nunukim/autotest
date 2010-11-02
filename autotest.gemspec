@@ -5,21 +5,18 @@
 
 Gem::Specification.new do |s|
   s.name = %q{autotest}
-  s.version = "4.4.1"
+  s.version = "4.4.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ryan Davis"]
-  s.date = %q{2010-10-02}
+  s.date = %q{2010-11-02}
   s.executables = ["autotest", "unit_diff"]
-  s.extra_rdoc_files = [
-    "README.markdown"
-  ]
   s.files = [
     ".autotest",
      ".gitignore",
      "History.txt",
-     "README.markdown",
      "Rakefile",
+     "Readme.md",
      "VERSION",
      "articles/getting_started_with_autotest.html",
      "autotest.gemspec",

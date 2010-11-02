@@ -1,16 +1,16 @@
 As soon as you save a file, autotest will run the matching tests.
 
-This is a fork of the ZenTest package to extract autotest from it.
+(Extracted from ZenTest)
 
 Improvements over ZenTest
 =========================
- - possibility to not run all tests after a failed test passes
- - possibility to use alternative config file
+ - `-c` not run all tests after a failed test passes
+ - `-r` use given config file
+ - `-p` use parallel_tests to run tests
  - simplified test setup
  - simplified packaging
- - less globals flying around
+ - less globals
  - integration tests
-
 
 Install
 =======
@@ -31,6 +31,7 @@ Usage
 
 ### Options
     -f, --fast-start                 Do not run full tests at start
+    -p, --parallel                   Run tests in parallel (experimental) -- gem install parallel_tests)
     -c, --no-full-after-failed       Do not run full tests after failed test passed
     -v, --verbose                    Be verbose. Prints files that autotest doesn't know how to map to tests
     -q, --quiet                      Be quiet.

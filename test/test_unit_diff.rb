@@ -1,4 +1,4 @@
-require 'test/helper'
+require File.expand_path('test/helper')
 require 'unit_diff'
 
 class TestUnitDiff < Test::Unit::TestCase

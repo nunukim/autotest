@@ -728,18 +728,19 @@ class Autotest
 
   private
 
-  # weird ruby 1.9 'feature': current path(path where autotest was called from) is not in $LOAD_PATH
-  # see http://redmine.ruby-lang.org/issues/show/1733
+  # since ruby 1.9 current path (path where autotest was called from) is not in $LOAD_PATH
   def self.with_current_path_in_load_path
-    if RUBY_VERSION > "1.9"
-      if not $LOAD_PATH.include?(File.expand_path('.')) and not $LOAD_PATH.include?('.')
+    if RUBY19 and not $LOAD_PATH.include?(File.expand_path('.')) and not $LOAD_PATH.include?('.')
+      begin
         $LOAD_PATH << '.'
-        current_path_was_added = true
+        result = yield
+      ensure
+        $LOAD_PATH.delete('.')
       end
+      result
+    else
+      yield
     end
-    result = yield
-    $LOAD_PATH.delete('.') if current_path_was_added
-    result
   end
 
   #list of all available rubygem load paths

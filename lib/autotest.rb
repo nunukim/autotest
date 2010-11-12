@@ -145,6 +145,7 @@ class Autotest
                 :files_to_test,
                 :find_order,
                 :interrupted,
+                :latest_results,
                 :last_mtime,
                 :libs,
                 :order,
@@ -168,7 +169,8 @@ class Autotest
     @exception_list = []
     @test_mappings = []
 
-    self.completed_re = /\d+ tests, \d+ assertions, \d+ failures, \d+ errors/
+    self.completed_re =
+      /\d+ tests, \d+ assertions, \d+ failures, \d+ errors(, \d+ skips)?/
     self.extra_class_map   = {}
     self.extra_files       = []
     self.failed_results_re = /^\s+\d+\) (?:Failure|Error):\n(.*?)\((.*?)\)/
@@ -182,17 +184,16 @@ class Autotest
     self.testlib           = "test/unit"
     self.find_directories  = ['.']
     self.unit_diff         = "ruby #{File.expand_path("#{File.dirname(__FILE__)}/../bin/unit_diff")} -u" # add ruby to also work for windows
+    self.latest_results    = nil
 
     add_test_unit_mappings
-
-    #execute custom extensions
     load_custom_extensions(options[:rc])
   end
 
   def add_test_unit_mappings
     #file in /lib -> run test in /test
     self.add_mapping(/^lib\/.*\.rb$/) do |filename, _|
-      possible = File.basename(filename).gsub '_', '_?'
+      possible = File.basename(filename).gsub '_', '_?' # ' stupid emacs
       files_matching %r%^test/.*#{possible}$%
     end
 
@@ -423,12 +424,19 @@ class Autotest
 
   def handle_results(results)
     failed = results.scan(self.failed_results_re)
-    completed = results =~ self.completed_re
+    completed = results[self.completed_re]
 
-    self.files_to_test = consolidate_failures failed if completed
+    if completed then
+      completed = completed.scan(/(\d+) (\w+)/).map { |v, k| [k, v.to_i] }
 
-    color = completed && self.files_to_test.empty? ? :green : :red
-    hook color unless $TESTING
+      self.latest_results = Hash[completed]
+      self.files_to_test  = consolidate_failures failed
+
+      color = self.files_to_test.empty? ? :green : :red
+      hook color unless $TESTING
+    else
+      self.latest_results = nil
+    end
 
     self.tainted = true unless self.files_to_test.empty?
   end

@@ -42,6 +42,10 @@ Usage
 
 Windows needs [diff.exe](http://gnuwin32.sourceforge.net/packages.html)
 
+TIPS
+====
+ - [RSpec] if you want to use `require 'spec_helper'` -> `rspec --configure autotest`
+
 TODO
 ====
  - add documentation for hooks

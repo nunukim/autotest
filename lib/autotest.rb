@@ -274,7 +274,7 @@ class Autotest
       open("| #{cmd}", "r") do |f|
         until f.eof? do
           c = f.getc or break
-          print (c.is_a?(Fixnum) ? c.chr : c)
+          putc (c.is_a?(Fixnum) ? c.chr : c) # print breaks coloring on windows -> putc
           line << c
           if c == ?\n then
             self.results << if RUBY19 then

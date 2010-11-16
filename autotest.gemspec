@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{autotest}
-  s.version = "4.4.3"
+  s.version = "4.4.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ryan Davis"]
-  s.date = %q{2010-11-15}
+  s.date = %q{2010-11-16}
   s.executables = ["autotest", "unit_diff"]
   s.files = [
     ".autotest",

@@ -46,6 +46,7 @@ class TestAutotest < Test::Unit::TestCase
     @a = klassname.split(/::/).inject(Object) { |k,n| k.const_get(n) }.new
     @a.output = StringIO.new
     @a.last_mtime = Time.at(2)
+    @a.options[:parallel] = nil
 
     @files = {}
     @files[@impl] = Time.at(1)
@@ -359,7 +360,7 @@ test_error2(#{@test_class}):
     assert @a.hook(:blah)
   end
 
-  def test_make_test_cmd
+  def test_make_test_cmd_basics
     f = {
       @test => [],
       'test/test_fooby.rb' => [ 'test_something1', 'test_something2' ]
@@ -377,6 +378,25 @@ test_error2(#{@test_class}):
 
     result = @a.make_test_cmd f
     assert_equal expected, result
+  end
+
+  def test_make_test_cmd_uses_parallel_with_multiple_files
+    @a.options[:parallel] = true
+    f = {
+      'test/a.rb' => [],
+      'test/b.rb' => []
+    }
+    result = @a.make_test_cmd f
+    assert_match /^parallel_test/, result
+  end
+
+  def test_make_test_cmd_does_not_use_parallel_for_single_file
+    @a.options[:parallel] = true
+    f = {
+      'test/a.rb' => []
+    }
+    result = @a.make_test_cmd f
+    assert_equal nil, (/^parallel_test/ =~ result)
   end
 
   def test_path_to_classname

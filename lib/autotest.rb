@@ -183,7 +183,13 @@ class Autotest
     self.find_directories  = ['.']
     self.unit_diff         = "#{File.expand_path("#{File.dirname(__FILE__)}/../bin/unit_diff")} -u"
 
-    #add Test::Unit mappings
+    add_test_unit_mappings
+
+    #execute custom extensions
+    load_custom_extensions(options[:rc])
+  end
+
+  def add_test_unit_mappings
     #file in /lib -> run test in /test
     self.add_mapping(/^lib\/.*\.rb$/) do |filename, _|
       possible = File.basename(filename).gsub '_', '_?'
@@ -194,9 +200,6 @@ class Autotest
     self.add_mapping(/^test.*\/test_.*rb$/) do |filename, _|
       filename
     end
-
-    #execute custom extensions
-    load_custom_extensions(options[:rc])
   end
 
   def load_custom_extensions(config_file)

@@ -449,12 +449,12 @@ class Autotest
   def make_test_cmd files_to_test
     cmds = []
     full, partial = reorder(files_to_test).partition { |k,v| v.empty? }
-    base_cmd = "#{ruby} -I#{libs} -rubygems"
+    base_cmd = "#{bundle_exec}#{ruby} -I#{libs} -rubygems"
 
     unless full.empty? then
       classes = full.map {|k,v| k}.flatten.uniq
       if options[:parallel] and classes.size > 1
-        cmds << "parallel_test #{escape_filenames(classes).join(' ')}"
+        cmds << "#{bundle_exec}parallel_test #{escape_filenames(classes).join(' ')}"
       else
         classes.unshift testlib
         cmds << "#{base_cmd} -e \"[#{escape_filenames(classes).join(', ')}].each { |f| require f }\" | #{unit_diff}"
@@ -467,6 +467,10 @@ class Autotest
     end
 
     cmds.join("#{SEP} ")
+  end
+
+  def bundle_exec
+    options[:bundle_exec] ? 'bundle exec ' : ''
   end
 
   def escape_filenames(classes)

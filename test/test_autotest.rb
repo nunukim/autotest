@@ -46,6 +46,7 @@ class TestAutotest < Test::Unit::TestCase
     @a = klassname.split(/::/).inject(Object) { |k,n| k.const_get(n) }.new
     @a.output = StringIO.new
     @a.last_mtime = Time.at(2)
+    @a.options[:bundle_exec] = nil
     @a.options[:parallel] = nil
 
     @files = {}
@@ -378,6 +379,26 @@ test_error2(#{@test_class}):
 
     result = @a.make_test_cmd f
     assert_equal expected, result
+  end
+
+  def test_make_test_cmd_uses_bundle_exec_when_given
+    @a.options[:bundle_exec] = true
+    f = {
+      @test => []
+    }
+    result = @a.make_test_cmd f
+    assert_match /^bundle exec \//,result
+  end
+
+  def test_make_test_cmd_uses_bundle_exec_with_parallel_test
+    @a.options[:bundle_exec] = true
+    @a.options[:parallel] = true
+    f = {
+      'test/a.rb' => [],
+      'test/b.rb' => []
+    }
+    result = @a.make_test_cmd f
+    assert_match /^bundle exec parallel_test/, result
   end
 
   def test_make_test_cmd_uses_parallel_with_multiple_files

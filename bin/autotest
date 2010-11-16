@@ -26,6 +26,9 @@ BANNER
   opts.on("-s", "--style STYLE", "Which style to use, e.g. rspec, rspec2") do |style|
     options[:style] = style
   end
+  opts.on("-b", "--bundle-exec", "Use bundle exec to run tests") do
+    options[:bundle_exec] = true
+  end
   opts.on("-h", "--help","Show this.") { puts opts;exit }
 end.parse!
 

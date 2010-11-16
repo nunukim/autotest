@@ -8,6 +8,7 @@ Improvements over ZenTest
  - `-r` use given config file
  - `-p` use parallel_tests to run tests (Test::Unit only)
  - `-s` use any style you want -> `alias autospec2="autotest --style rspec2"`
+ - `-b` use bundle exec to run tests
  - simplified test setup
  - simplified packaging
  - less globals
@@ -38,6 +39,7 @@ Usage
     -q, --quiet                      Be quiet.
     -r, --rc CONFIG                  Path to config file. (Defaults to ~/.autotest or current_dir/.autotest)
     -s, --style STYLE                Which style to use, e.g. rspec, rspec2
+    -b, --bundle-exec                Use bundle exec to run tests
     -h, --help                       Show this.
 
 Windows needs [diff.exe](http://gnuwin32.sourceforge.net/packages.html)

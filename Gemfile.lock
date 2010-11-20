@@ -9,6 +9,9 @@ GEM
       git (>= 1.2.5)
       rubyforge (>= 2.0.0)
     json_pure (1.4.6)
+    parallel (0.5.1)
+    parallel_tests (0.4.7)
+      parallel
     rake (0.8.7)
     rspec (2.0.1)
       rspec-core (~> 2.0.1)
@@ -29,6 +32,7 @@ PLATFORMS
 
 DEPENDENCIES
   jeweler
+  parallel_tests
   rake
   rspec (~> 2)
   shoulda

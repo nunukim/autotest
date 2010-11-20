@@ -67,7 +67,7 @@ class TestAutotestIntegration < Test::Unit::TestCase
         write_passing_tests 1
         assert_match /\n#{%w[ran_command green all_good died]*''}$/m, run_autotest
       end
-      
+
       should 'run with alternate config file location' do
         write('.autotest_alternate', "Autotest.add_hook(:all_good){print 'all_good';exit}")
         assert_equal run_autotest('-r .autotest_alternate'), 'all_good'
@@ -81,6 +81,14 @@ class TestAutotestIntegration < Test::Unit::TestCase
       should 'use given style' do
         write('spec/a_spec.rb', "print 'YES'")
         assert_match %r{YES}, run_autotest('--style rspec2')
+      end
+
+      should 'run in parallel' do
+        write('test/test_a.rb', "require 'test/unit';print 'YES'")
+        write('test/test_b.rb', "require 'test/unit';print 'YEP'")
+        result = run_autotest('--parallel')
+        assert_match %r{YES}, result
+        assert_match %r{YEP}, result
       end
     end
   end

@@ -452,12 +452,13 @@ class Autotest
     base_cmd = "#{bundle_exec}#{ruby} -I#{libs} -rubygems"
 
     unless full.empty? then
-      classes = full.map {|k,v| k}.flatten.uniq
-      if options[:parallel] and classes.size > 1
-        cmds << "#{bundle_exec}parallel_test #{escape_filenames(classes).join(' ')}"
+      files = full.map {|k,v| k}.flatten.uniq
+      if options[:parallel] and files.size > 1
+        files = files.map{|file| File.expand_path(file) } if RUBY19
+        cmds << "#{bundle_exec}parallel_test #{escape_filenames(files).join(' ')}"
       else
-        classes.unshift testlib
-        cmds << "#{base_cmd} -e \"[#{escape_filenames(classes).join(', ')}].each { |f| require f }\" | #{unit_diff}"
+        files.unshift testlib
+        cmds << "#{base_cmd} -e \"[#{escape_filenames(files).join(', ')}].each { |f| require f }\" | #{unit_diff}"
       end
     end
 

@@ -367,7 +367,7 @@ test_error2(#{@test_class}):
       'test/test_fooby.rb' => [ 'test_something1', 'test_something2' ]
     }
 
-    unit_diff = File.expand_path("#{File.dirname(__FILE__)}/../bin/unit_diff")
+    unit_diff = "ruby #{File.expand_path("#{File.dirname(__FILE__)}/../bin/unit_diff")}"
     pre = "#{RUBY} -I.:lib:test -rubygems"
     req = ".each { |f| require f }\""
     post = "| #{unit_diff} -u"

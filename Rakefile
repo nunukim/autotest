@@ -55,10 +55,10 @@ end
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "autotest"
+    gem.name = "autotest-standalone"
     gem.summary = "Autotest, without ZenTest"
     gem.homepage = "http://github.com/grosser/autotest"
-    gem.authors = ["Ryan Davis"]
+    gem.authors = ["Ryan Davis", "Michael Grosser"]
   end
 
   Jeweler::GemcutterTasks.new

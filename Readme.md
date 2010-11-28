@@ -1,6 +1,6 @@
-As soon as you save a file, autotest will run the matching tests.
+Standalone autotest extracted from ZenTest.
 
-(Extracted from ZenTest)
+As soon as you save a file, autotest will run the matching tests.
 
 Improvements over ZenTest
 =========================
@@ -16,13 +16,12 @@ Improvements over ZenTest
 
 Install
 =======
-Uninstall ZenTest first, or autotest will not be found:
     sudo gem uninstall ZenTest
-Install:
-    sudo gem install autotest
+    sudo gem install autotest-standalone
+
 Optional: Support for Test::Unit on Rails
     sudo gem install autotest-rails-pure
-Optional: an [ZenTest without Autotest](http://github.com/grosser/zentest) version:
+Optional: [ZenTest without Autotest](http://github.com/grosser/zentest) version:
     sudo gem install zentest-without-autotest
 
 
@@ -51,7 +50,6 @@ TIPS
 TODO
 ====
  - add documentation for hooks
- - cleanup bin/autotest Dir hacks
  - remove globals from unitdiff
  - add some automatic notifications e.g. autotest -n -> use any notify library found
  - use watchr

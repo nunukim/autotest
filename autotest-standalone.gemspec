@@ -4,12 +4,12 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{autotest}
+  s.name = %q{autotest-standalone}
   s.version = "4.4.6"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Ryan Davis"]
-  s.date = %q{2010-11-25}
+  s.authors = ["Ryan Davis", "Michael Grosser"]
+  s.date = %q{2010-11-28}
   s.executables = ["autotest", "unit_diff"]
   s.files = [
     ".autotest",
@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
      "Readme.md",
      "VERSION",
      "articles/getting_started_with_autotest.html",
-     "autotest.gemspec",
+     "autotest-standalone.gemspec",
      "bin/autotest",
      "bin/unit_diff",
      "example_dot_autotest.rb",

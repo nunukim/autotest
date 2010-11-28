@@ -387,7 +387,7 @@ test_error2(#{@test_class}):
   end
 
   def test_make_test_cmd_uses_bundle_exec_when_given
-    @a.options[:bundle_exec] = true
+    @a.prefix = 'bundle exec '
     f = {
       @test => []
     }
@@ -395,8 +395,8 @@ test_error2(#{@test_class}):
     assert_match /^bundle exec \//,result
   end
 
-  def test_make_test_cmd_uses_bundle_exec_with_parallel_test
-    @a.options[:bundle_exec] = true
+  def test_make_test_cmd_uses_prefix_with_parallel_test
+    @a.prefix = 'bundle exec '
     @a.options[:parallel] = true
     f = {
       'test/a.rb' => [],

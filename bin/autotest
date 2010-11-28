@@ -3,19 +3,5 @@
 $LOAD_PATH.unshift(File.expand_path("#{File.dirname(__FILE__)}/../lib"))
 require 'autotest'
 
-options = Autotest.parse_options
-
-target = Autotest
-style = options[:style] || Autotest.autodiscover
-
-unless style.empty?
-  mod = "autotest/#{style.join("_")}"
-  puts "loading #{mod}" unless options[:quiet]
-  begin
-    require mod
-  rescue LoadError => e
-    abort "Error loading Autotest style #{mod} (#{e.to_s}). Aborting."
-  end
-  target = Autotest.const_get(style.map {|s| s.capitalize}.join)
-end
-target.run
+Autotest.parse_options
+Autotest.runner.run

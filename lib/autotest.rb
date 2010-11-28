@@ -67,10 +67,13 @@ class Autotest
   ALL_HOOKS = [ :all_good, :died, :green, :initialize, :interrupt, :quit,
                 :ran_command, :red, :reset, :run_command, :updated, :waiting ]
 
-  @@options = {}
-  def self.options;@@options;end
-  def options;@@options;end
+  def self.options
+    @@options ||= {}
+  end
 
+  def options
+    self.class.options
+  end
 
   HOOKS = Hash.new { |h,k| h[k] = [] } #unfound keys are []
   unless defined? WINDOZE then
@@ -144,6 +147,28 @@ class Autotest
     options
   end
 
+  # Calculates the autotest runner to use to run the tests.
+  #
+  # Can be overridden with --style, otherwise uses ::autodiscover.
+
+  def self.runner
+    style = options[:style] || Autotest.autodiscover
+    target = Autotest
+
+    unless style.empty? then
+      mod = "autotest/#{style.join "_"}"
+      puts "loading #{mod}"
+      begin
+        require mod
+      rescue LoadError => e
+        abort "Error loading Autotest style #{mod} (#{e.to_s}). Aborting."
+      end
+      target = Autotest.const_get(style.map {|s| s.capitalize}.join)
+    end
+
+    target
+  end
+
   ##
   # Add a proc to the collection of discovery procs. See
   # +autodiscover+.
@@ -214,6 +239,7 @@ class Autotest
                 :libs,
                 :order,
                 :output,
+                :prefix,
                 :results,
                 :sleep,
                 :tainted,
@@ -244,6 +270,7 @@ class Autotest
     self.libs              = %w[. lib test].join(File::PATH_SEPARATOR)
     self.order             = :random
     self.output            = $stderr
+    self.prefix            = nil
     self.sleep             = 1
     self.testlib           = "test/unit"
     self.find_directories  = ['.']
@@ -422,7 +449,7 @@ class Autotest
       end
     end
 
-    return filters
+    filters
   end
 
   ##
@@ -452,7 +479,7 @@ class Autotest
       self.find_order.push(*order.sort)
     end
 
-    return result
+    result
   end
 
   ##
@@ -519,29 +546,28 @@ class Autotest
   def make_test_cmd files_to_test
     cmds = []
     full, partial = reorder(files_to_test).partition { |k,v| v.empty? }
-    base_cmd = "#{bundle_exec}#{ruby} -I#{libs} -rubygems"
 
     unless full.empty? then
       files = full.map {|k,v| k}.flatten.uniq
       if options[:parallel] and files.size > 1
         files = files.map{|file| File.expand_path(file) } if RUBY19
-        cmds << "#{bundle_exec}parallel_test #{escape_filenames(files).join(' ')}"
+        cmds << "#{prefix}parallel_test #{escape_filenames(files).join(' ')}"
       else
         files.unshift testlib
-        cmds << "#{base_cmd} -e \"[#{escape_filenames(files).join(', ')}].each { |f| require f }\" | #{unit_diff}"
+        cmds << "#{ruby_cmd} -e \"[#{escape_filenames(files).join(', ')}].each { |f| require f }\" | #{unit_diff}"
       end
     end
 
     partial.each do |klass, methods|
       regexp = Regexp.union(*methods).source
-      cmds << "#{base_cmd} #{klass} -n \"/^(#{regexp})$/\" | #{unit_diff}"
+      cmds << "#{ruby_cmd} #{klass} -n \"/^(#{regexp})$/\" | #{unit_diff}"
     end
 
     cmds.join("#{SEP} ")
   end
 
-  def bundle_exec
-    options[:bundle_exec] ? 'bundle exec ' : ''
+  def ruby_cmd
+    "#{prefix}#{ruby} -I#{libs} -rubygems"
   end
 
   def escape_filenames(classes)
@@ -737,12 +763,15 @@ class Autotest
 
   ############################################################
   # Hooks:
-
-  ##
-  # Call the event hook named +name+, executing all registered hooks
-  # until one returns true. Returns false if no hook handled the
-  # event.
-
+  # Call the event hook named +name+, passing in optional args
+  # depending on the hook itself.
+  #
+  # Returns false if no hook handled the event.
+  #
+  # === Hook Writers!
+  #
+  # This executes all registered hooks <em>until one returns truthy</em>.
+  # Pay attention to the return value of your block!
   def hook(name, *args)
     deprecated = {
       # none currently
@@ -752,9 +781,7 @@ class Autotest
       warn "hook #{name} has been deprecated, use #{deprecated[name]}"
     end
 
-    HOOKS[name].any? do |plugin|
-      plugin[self, *args]
-    end
+    HOOKS[name].any? { |plugin| plugin[self, *args] }
   end
 
   ##

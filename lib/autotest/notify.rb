@@ -18,6 +18,7 @@ class Autotest
       when /mswin/
         require 'snarl'
         Snarl.show_message(title)
+        ''
       end
 
       system command

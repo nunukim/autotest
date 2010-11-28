@@ -32,19 +32,6 @@ BANNER
   opts.on("-h", "--help","Show this.") { puts opts;exit }
 end.parse!
 
-# remove warnings from Dir.[]
-class Dir
-  class << self
-    alias :old_index :[]
-    def [](*args)
-      $-w, old_warn = false, $-w
-      old_index(*args)
-    ensure
-      $-w = old_warn
-    end
-  end
-end
-
 #run the correct Autotest variant fitting to the local structure
 $LOAD_PATH.unshift(File.expand_path("#{File.dirname(__FILE__)}/../lib"))
 require 'autotest'

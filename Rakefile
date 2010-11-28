@@ -1,4 +1,3 @@
-require 'rubygems'
 $LOAD_PATH << 'lib'
 
 #rake test

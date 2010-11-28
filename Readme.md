@@ -19,7 +19,7 @@ Install
     sudo gem uninstall ZenTest
     sudo gem install autotest-standalone
 
-Optional: Support for Test::Unit on Rails
+Optional: [Autotest for Test::Unit on Rails](https://github.com/grosser/autotest-rails)
     sudo gem install autotest-rails-pure
 Optional: [ZenTest without Autotest](http://github.com/grosser/zentest) version:
     sudo gem install zentest-without-autotest

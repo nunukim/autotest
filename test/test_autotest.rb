@@ -21,7 +21,13 @@ class Autotest
 end
 
 class TestAutotest < Test::Unit::TestCase
-
+  def refute test, msg=nil
+    if msg then
+      assert ! test, msg
+    else
+      assert ! test
+    end
+  end unless respond_to? :refute
   alias :deny :refute
 
   RUBY = File.join(Config::CONFIG['bindir'], Config::CONFIG['ruby_install_name']) unless defined? RUBY

@@ -80,6 +80,70 @@ class Autotest
 
   @@discoveries = []
 
+  def self.parse_options
+    require 'optparse'
+    options = {}
+    OptionParser.new do |opts|
+      opts.banner = <<-BANNER.gsub(/^        /, '')
+        Continuous testing for your ruby app.
+
+          Autotest automatically tests code that has changed. It
+          assumes the code is in lib, and tests are in tests. Autotest
+          uses plugins to control what happens. You configure plugins
+          with require statements in the .autotest file in your
+          project base directory, and a default configuration for all
+          your projects in the .autotest file in your home directory.
+
+        Usage:
+            autotest [options]
+      BANNER
+
+      opts.on "-f", "--fast-start", "Do not run full tests at start" do
+        options[:no_full_after_start] = true
+      end
+
+      opts.on("-c", "--no-full-after-failed",
+              "Do not run all tests on red->green") do
+        options[:no_full_after_failed] = true
+      end
+
+      opts.on "-v", "--verbose", "Be annoyingly verbose (debugs .autotest)." do
+        options[:verbose] = true
+      end
+
+      opts.on "-q", "--quiet", "Be quiet." do
+        options[:quiet] = true
+      end
+
+      opts.on("-r", "--rc CONF", String, "Override path to config file") do |o|
+        options[:rc] = Array(o)
+      end
+
+      opts.on("-s", "--style STYLE", String,
+              "Manually specify test style. (default: autodiscover)") do |style|
+        options[:style] = Array(style)
+      end
+
+      opts.on("-p", "--parallel","Run tests (Test::Unit only) in parallel -- gem install parallel_tests") do
+        options[:parallel] = true
+        require 'parallel_tests'
+      end
+
+      opts.on("-b", "--bundle-exec", "Use bundle exec to run tests") do
+        require 'autotest/bundler'
+      end
+
+      opts.on "-h", "--help", "Show this." do
+        puts opts
+        exit 1
+      end
+    end.parse!
+
+    Autotest.options.merge! options
+
+    options
+  end
+
   ##
   # Add a proc to the collection of discovery procs. See
   # +autodiscover+.
@@ -187,7 +251,7 @@ class Autotest
     self.latest_results    = nil
 
     add_test_unit_mappings
-    load_custom_extensions(options[:rc])
+    load_custom_extensions
   end
 
   def add_test_unit_mappings
@@ -203,13 +267,10 @@ class Autotest
     end
   end
 
-  def load_custom_extensions(config_file)
-    configs = ['./.autotest']
-    if config_file
-      configs << File.expand_path(config_file)
-    else
-      configs << File.expand_path('~/.autotest')
-    end
+  def load_custom_extensions
+    default_configs = [File.expand_path('~/.autotest'), './.autotest']
+    configs = options[:rc] || default_configs
+
     configs.each do |f|
       load f if File.exist? f
     end
@@ -229,7 +290,7 @@ class Autotest
     loop do
       begin # ^c handler
         get_to_green
-        if tainted? and not options[:no_full_after_failed]
+        if tainted? and not options[:no_full_after_failed] then
           rerun_all_tests
         else
           hook :all_good
@@ -402,7 +463,8 @@ class Autotest
   def find_files_to_test(files=find_files)
     updated = files.select { |filename, mtime| self.last_mtime < mtime }
 
-    unless updated.empty? or self.last_mtime.to_i == 0 #nothing to update or initial run
+    # nothing to update or initially run
+    unless updated.empty? || self.last_mtime.to_i == 0 then
       p updated if options[:verbose]
       hook :updated, updated
     end

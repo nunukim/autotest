@@ -136,6 +136,10 @@ class Autotest
         require 'autotest/bundler'
       end
 
+      opts.on("-n", "--notify", "Notify about success and failure via popups") do
+        require 'autotest/notify'
+      end
+
       opts.on "-h", "--help", "Show this." do
         puts opts
         exit 1

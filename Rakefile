@@ -58,6 +58,7 @@ begin
     gem.summary = "Autotest, without ZenTest"
     gem.homepage = "http://github.com/grosser/autotest"
     gem.authors = ["Ryan Davis", "Michael Grosser"]
+    gem.files << 'lib/autotest/notify.rb'
   end
 
   Jeweler::GemcutterTasks.new

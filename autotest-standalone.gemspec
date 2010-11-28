@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
      "lib/autotest.rb",
      "lib/autotest/autoupdate.rb",
      "lib/autotest/bundler.rb",
+     "lib/autotest/notify.rb",
      "lib/autotest/once.rb",
      "lib/autotest/rcov.rb",
      "lib/autotest/restart.rb",

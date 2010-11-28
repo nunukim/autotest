@@ -1,4 +1,4 @@
-Standalone autotest extracted from ZenTest.
+Standalone autotest extracted from ZenTest.  
 
 As soon as you save a file, autotest will run the matching tests.
 
@@ -9,6 +9,7 @@ Improvements over ZenTest
  - `-p` use parallel_tests to run tests (Test::Unit only)
  - `-s` use any style you want -> `alias autospec2="autotest --style rspec2"`
  - `-b` use bundle exec to run tests
+ - `-n` notify about results (simple + experimental)
  - simplified test setup
  - simplified packaging
  - less globals
@@ -39,6 +40,7 @@ Usage
     -r, --rc CONFIG                  Path to config file. (Defaults to ~/.autotest or current_dir/.autotest)
     -s, --style STYLE                Which style to use, e.g. rspec, rspec2
     -b, --bundle-exec                Use bundle exec to run tests
+    -n, --notify                     Notify about success and failure via popups
     -h, --help                       Show this.
 
 Windows needs [diff.exe](http://gnuwin32.sourceforge.net/packages.html)

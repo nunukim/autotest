@@ -1,7 +1,9 @@
-source 'http://rubygems.org'
+source :rubygems
 
-gem 'rake'
-gem 'shoulda'
-gem 'rspec', '~>2'
-gem 'jeweler'
-gem 'parallel_tests'
+group :dev do
+  gem 'rake'
+  gem 'shoulda'
+  gem 'rspec', '~>2'
+  gem 'jeweler'
+  gem 'parallel_tests'
+end

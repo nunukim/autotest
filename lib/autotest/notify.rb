@@ -1,8 +1,9 @@
 class Autotest
   class Notify
     def self.notify(state)
-      title = "#{state.to_s.capitalize} -- Autotest"
-
+      pretty_state = state.to_s.capitalize
+      title = "#{pretty_state} -- Autotest"
+      
       command = case RUBY_PLATFORM
       when /linux/
         title = "'#{title}'"
@@ -12,7 +13,7 @@ class Autotest
         when :zenity then "#{linux_lib} --title #{title}"
         end
       when /darwin/
-        "growlnotify -n autotest -t #{title}"
+        "growlnotify -n autotest -m \"#{pretty_state}\" Autotest"
       when /cygwin/
         "sncmd /m '#{title}'"
       when /mswin/

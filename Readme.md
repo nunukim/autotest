@@ -63,6 +63,7 @@ License
 ### Autotest was extracted from ZenTest and improved by:
  - [Charles Roper](http://twitter.com/charlesroper)
  - [Shane Liebling](http://github.com/shanel)
+ - [Erik Fonselius](https://github.com/Fonsan)
  - [Michael Grosser](http://grosser.it)
 
 ### ZenTest Authors

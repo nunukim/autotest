@@ -473,6 +473,11 @@ test_error2(#{@test_class}):
     assert_match @a.testlib, @a.make_test_cmd(f)
   end
 
+  def test_parse_options_parses_extras
+    result = Autotest.parse_options(['--extras','t,bla'])
+    assert_equal({:extras=>[["t", "bla"]]}, result)
+  end
+
   def util_exceptions
     @a.exception_list.sort_by { |r| r.to_s }
   end

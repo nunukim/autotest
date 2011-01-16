@@ -83,7 +83,7 @@ class Autotest
 
   @@discoveries = []
 
-  def self.parse_options
+  def self.parse_options(args = ARGV)
     require 'optparse'
     options = {}
     OptionParser.new do |opts|
@@ -144,7 +144,12 @@ class Autotest
         puts opts
         exit 1
       end
-    end.parse!
+
+      opts.on "-x", "--extras OPTIONS", Array, "Send command line options to the test framework." do |extra|
+        options[:extras] ||= []
+        options[:extras] << extra
+      end
+    end.parse args
 
     Autotest.options.merge! options
 

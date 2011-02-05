@@ -394,7 +394,8 @@ class Autotest
     hook :ran_command
     self.results = self.results.join
 
-    handle_results(self.results)
+    #handle_results(self.results)
+    handle_results self.results.gsub(/\e\[\d+m/,'') # removing ansi-color code
   end
 
   ############################################################
